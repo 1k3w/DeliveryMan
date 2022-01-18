@@ -54,7 +54,7 @@ public class DeliveryPlayer {
             lastClaimed.put(reward.id, System.currentTimeMillis());
         }else if(state == ClaimableState.ALREADY_CLAIMED){
             String message = ConfigManager.messages.getString("already-claimed");
-            player.sendMessage(ChatUtils.translate(message.replace("{claim_next_remain}", (reward.cooldown == -1) ? "Never" : getReadableTimeRemaining(reward)), player));
+            player.sendMessage(ChatUtils.translate(message.replace("{claim_next_remain}", (reward.cooldown <= -1) ? "Never" : getReadableTimeRemaining(reward)), player));
         }else{
             player.sendMessage(ChatUtils.translate(ConfigManager.messages.getString("not-allowed-to-claim"), player));
         }
@@ -71,6 +71,7 @@ public class DeliveryPlayer {
     }
 
     public String getReadableTimeRemaining(Reward reward){
+        if (reward.cooldown <= -1) return "nooit";
         long remainingTime = (lastClaimed.get(reward.id) + reward.cooldown - System.currentTimeMillis() ) / 1000;
         int day = (int) TimeUnit.SECONDS.toDays(remainingTime);
         long hour = TimeUnit.SECONDS.toHours(remainingTime) - (day *24);

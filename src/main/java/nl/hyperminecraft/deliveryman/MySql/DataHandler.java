@@ -63,10 +63,8 @@ public class DataHandler {
                     String query = null;
                     if (claimed){
                         query = "UPDATE player_data SET `claimed_at` = %c WHERE `uuid` = '%u';";
-                        System.out.println(1);
                     }else{
                         query = "INSERT INTO player_data(`uuid`, `claimed_at`, `reward`) VALUES ('%u', %c, '%r');";
-                        System.out.println(2);
                     }
                     query = query.replace("%u", uuid.toString()).replace("%r", reward).replace("%c", claimedAt + "");
                     MySql.conn.createStatement().execute(query);

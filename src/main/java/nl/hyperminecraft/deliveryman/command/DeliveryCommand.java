@@ -1,6 +1,8 @@
 package nl.hyperminecraft.deliveryman.command;
 
+import nl.hyperminecraft.deliveryman.config.ConfigManager;
 import nl.hyperminecraft.deliveryman.menu.RewardMenuHandler;
+import nl.hyperminecraft.deliveryman.reward.RewardManager;
 import nl.hyperminecraft.deliveryman.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,8 +20,10 @@ public class DeliveryCommand implements CommandExecutor {
         Player p = (Player) commandSender;
         if (args.length == 0){
             RewardMenuHandler.getInstance().openMenu(p, "default");
-        }else{
-            RewardMenuHandler.getInstance().openMenu(p, args[0]);
+        }else if (args[0].equalsIgnoreCase("reload")){
+            ConfigManager.reloadConfigs();
+            RewardMenuHandler.getInstance().load(ConfigManager.menus);
+            RewardManager.getInstance().load(ConfigManager.rewards);
         }
         return true;
     }

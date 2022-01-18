@@ -1,0 +1,13 @@
+menus:
+  main:
+    rows: 4
+    title: 'Normaal menu'
+    name: 'default' #/deliveryman default to open his menu
+    fill-item:
+      name: ' '
+      lore:
+        - ' '
+      glint: true
+      material: 'LIGHT_GRAY_STAINED_GLASS_PANE'
+    rewards:
+      nitro: 11 #reward naam: slot

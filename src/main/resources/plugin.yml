@@ -1,0 +1,12 @@
+name: Deliveryman
+version: ${project.version}
+main: nl.hyperminecraft.deliveryman.Deliveryman
+api-version: 1.17
+depend:
+  - PlaceholderAPI
+commands:
+  deliveryman:
+    aliases:
+      - dm
+    description: 'opens the deliveryman gui'
+    usage: '/deliveryman <menu>'

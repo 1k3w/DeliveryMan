@@ -1,5 +1,6 @@
-package nl.hyperminecraft.deliveryman.utils;
+package cc.ikew.deliveryman.utils;
 
+import cc.ikew.deliveryman.hooks.papi.PAPIDataHandler;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import java.util.regex.Pattern;
 
 public class ChatUtils {
     public static String translate(String message, Player player) {
+        if(PAPIDataHandler.hookEnabled()) PlaceholderAPI.setPlaceholders(player, message);
         Pattern pattern = Pattern.compile("&#[a-fA-F0-9]{6}");
         Matcher matcher = pattern.matcher(message);
         while (matcher.find()) {
@@ -26,7 +28,7 @@ public class ChatUtils {
             message = message.replace(hexCode, builder.toString());
             matcher = pattern.matcher(message);
         }
-        PlaceholderAPI.setPlaceholders(player, message);
+
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
@@ -51,7 +53,6 @@ public class ChatUtils {
     public static List<String> translateAll(String... strings){
         ArrayList<String> list = new ArrayList();
         for (String s : strings)list.add(translate(s));
-
         return list;
     }
 

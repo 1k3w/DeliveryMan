@@ -1,4 +1,4 @@
-package nl.hyperminecraft.deliveryman.profile;
+package cc.ikew.deliveryman.profile;
 
 public enum ClaimableState {
     UNAVAILABLE(),

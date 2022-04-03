@@ -1,9 +1,9 @@
-package nl.hyperminecraft.deliveryman.menu;
+package cc.ikew.deliveryman.menu;
 
-import nl.hyperminecraft.deliveryman.Deliveryman;
-import nl.hyperminecraft.deliveryman.config.ConfigManager;
-import nl.hyperminecraft.deliveryman.profile.DeliveryPlayer;
-import nl.hyperminecraft.deliveryman.utils.ChatUtils;
+import cc.ikew.deliveryman.Deliveryman;
+import cc.ikew.deliveryman.profile.DeliveryPlayer;
+import cc.ikew.deliveryman.utils.ChatUtils;
+import cc.ikew.deliveryman.config.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;

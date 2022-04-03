@@ -1,39 +1,39 @@
 rewards:
   nitro:
-    time: 2628000 # in ms (-1 = once claimed can't be claimed anymore)
+    time: 2628000 # in milliseconds (-1 = once claimed can't be claimed anymore)
     cmds:
       - '[c] goldencrates givekey {name} nitro 1'
-      - '[m] &aJe hebt &71x &d&lNitro &7key &aontvangen!'
+      - '[m] &aYou Received &71x &d&lNitro &7key &areceived!!'
     conditions:
       - 'deliveryman.rewards.nitro'
     locked:
       material: MINECART
-      durability: 0
       amount: 1
       name: '&d&lNitro &7Reward'
       lore: # Supports PlaceholderAPI if installed!
         - ''
-        - '&7&oJe kan weer claimen over:'
+        - '&7&oYou can claim again in:'
         - ''
         - '&d{claim_next_remain}'
         - ''
+      custom-model-data: -1 # -1 to disable this.
     available:
       material: CHEST_MINECART # bit.ly/spigotmaterials
-      durability: 0
       amount: 1
       name: '&d&lNitro &7Reward'
       lore: # Supports PlaceholderAPI if installed!
         - ''
-        - '&7&oKlik om je reward in ontvangst te nemen!'
+        - '&7&oClick to get your reward!'
         - '&d- 2x Nitro crate key'
         - ''
+      custom-model-data: -1
     need-condition: # Item to display if the reward need a permission and the user doesn't have it.
       material: CHEST_MINECART # bit.ly/spigotmaterials
-      durability: 0
       amount: 1
       name: '&d&lNitro &7Reward'
       lore: # Supports PlaceholderAPI if installed!
         - ''
-        - '&7&oJe hebt de discord server niet geboost!'
-        - "&7&oWel? Dan heb je je niet geverifieerd!"
+        - '&7&oYou did not boost the discord server!'
+        - "&7&If this is false, contact staff!"
         - ''
+      custom-model-data: -1

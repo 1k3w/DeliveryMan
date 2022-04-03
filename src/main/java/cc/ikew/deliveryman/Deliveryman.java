@@ -1,11 +1,16 @@
-package nl.hyperminecraft.deliveryman;
+package cc.ikew.deliveryman;
 
-import nl.hyperminecraft.deliveryman.MySql.DataHandler;
-import nl.hyperminecraft.deliveryman.MySql.MySql;
-import nl.hyperminecraft.deliveryman.command.DeliveryCommand;
-import nl.hyperminecraft.deliveryman.listener.RegisterListener;
-import nl.hyperminecraft.deliveryman.menu.RewardMenuHandler;
-import nl.hyperminecraft.deliveryman.reward.RewardManager;
+import cc.ikew.deliveryman.MySql.DataHandler;
+import cc.ikew.deliveryman.MySql.MySql;
+import cc.ikew.deliveryman.hooks.bstats.Metrics;
+import cc.ikew.deliveryman.hooks.papi.PAPIDataHandler;
+import cc.ikew.deliveryman.hooks.papi.PAPIHook;
+import cc.ikew.deliveryman.hooks.vault.VaultHook;
+import cc.ikew.deliveryman.listener.RegisterListener;
+import cc.ikew.deliveryman.command.DeliveryCommand;
+import cc.ikew.deliveryman.menu.RewardMenuHandler;
+import cc.ikew.deliveryman.reward.RewardManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,13 +33,12 @@ public final class Deliveryman extends JavaPlugin {
         conn = MySql.connect();
         getServer().getPluginManager().registerEvents(RewardMenuHandler.getInstance(), this);
         getServer().getPluginManager().registerEvents(new RegisterListener(), this);
-        saveResource("menus.yml", false);
-        saveResource("rewards.yml", false);
-        saveResource("messages.yml", false);
         RewardMenuHandler.getInstance().load(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "menus.yml")));
         RewardManager.getInstance().load(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "rewards.yml")));
         getServer().getPluginCommand("deliveryman").setExecutor(new DeliveryCommand());
         DataHandler.createDataTable();
+        enableHooks();
+        Metrics metrics = new Metrics(this, 14818);
     }
 
     @Override
@@ -47,5 +51,13 @@ public final class Deliveryman extends JavaPlugin {
         saveResource("rewards.yml", false);
         saveResource("messages.yml", false);
         saveResource("menus.yml", false);
+    }
+
+    private void enableHooks(){
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+            PAPIDataHandler.enable();
+            new PAPIHook().register();
+        }
+        VaultHook.setupEconomy(this);
     }
 }

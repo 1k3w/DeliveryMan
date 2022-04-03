@@ -1,9 +1,9 @@
-prefix: 'Deliveryman '
-
 already-claimed: 'You can claim again in: {claim_next_remain}'
-date-time-format: 'HH mm ss'
+never-claimable-text: 'never'
+date-time-format: ' dd:hh:mm:ss' # format for the time countdown
 not-allowed-to-claim: 'You cant claim this reward!'
 claimed: 'You claimed: {reward}'
 menu-not-found: 'menu: {menu} is not found!'
+not-allowed: "You are not allowed to do that! you don't have the permission: {permission}"
 
 reloaded: 'Reloaded all plugin files!'

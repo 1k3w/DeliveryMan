@@ -1,8 +1,7 @@
-package nl.hyperminecraft.deliveryman.reward;
+package cc.ikew.deliveryman.reward;
 
-import nl.hyperminecraft.deliveryman.profile.DeliveryPlayer;
+import cc.ikew.deliveryman.profile.DeliveryPlayer;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 

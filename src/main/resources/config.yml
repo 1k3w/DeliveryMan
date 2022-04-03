@@ -2,3 +2,5 @@ mysql:
   dsn: 'jdbc:mysql://localhost/test'
   username: 'root'
   password: ''
+placeholderAPI:
+  no-rewards-text: 'No Rewards'

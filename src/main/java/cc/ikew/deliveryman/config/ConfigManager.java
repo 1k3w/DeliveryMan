@@ -1,6 +1,6 @@
-package nl.hyperminecraft.deliveryman.config;
+package cc.ikew.deliveryman.config;
 
-import nl.hyperminecraft.deliveryman.Deliveryman;
+import cc.ikew.deliveryman.Deliveryman;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

@@ -1,6 +1,6 @@
-package nl.hyperminecraft.deliveryman.MySql;
+package cc.ikew.deliveryman.MySql;
 
-import nl.hyperminecraft.deliveryman.Deliveryman;
+import cc.ikew.deliveryman.Deliveryman;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,10 +1,9 @@
-package nl.hyperminecraft.deliveryman.MySql;
+package cc.ikew.deliveryman.MySql;
 
-import nl.hyperminecraft.deliveryman.Deliveryman;
-import nl.hyperminecraft.deliveryman.profile.DeliveryPlayer;
+import cc.ikew.deliveryman.Deliveryman;
+import cc.ikew.deliveryman.profile.DeliveryPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.intellij.lang.annotations.Language;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,7 +48,7 @@ public class DataHandler {
             @Override
             public void run() {
                 DeliveryPlayer.addDeliveryPlayer(new DeliveryPlayer(Bukkit.getPlayer(uuid), data));
-                System.out.println("added Data!");
+                ////System.out.println("added Data!");
             }
         }.runTask(Deliveryman.instance);
     }

@@ -1,13 +1,11 @@
-package nl.hyperminecraft.deliveryman.listener;
+package cc.ikew.deliveryman.listener;
 
-import nl.hyperminecraft.deliveryman.MySql.DataHandler;
-import nl.hyperminecraft.deliveryman.profile.DeliveryPlayer;
+import cc.ikew.deliveryman.MySql.DataHandler;
+import cc.ikew.deliveryman.profile.DeliveryPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.util.HashMap;
 
 public class RegisterListener implements Listener {
 

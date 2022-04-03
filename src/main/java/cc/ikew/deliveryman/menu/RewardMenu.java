@@ -1,22 +1,18 @@
-package nl.hyperminecraft.deliveryman.menu;
+package cc.ikew.deliveryman.menu;
 
-import nl.hyperminecraft.deliveryman.profile.DeliveryPlayer;
-import nl.hyperminecraft.deliveryman.reward.Reward;
-import nl.hyperminecraft.deliveryman.reward.RewardManager;
-import nl.hyperminecraft.deliveryman.utils.ChatUtils;
+import cc.ikew.deliveryman.profile.DeliveryPlayer;
+import cc.ikew.deliveryman.utils.ChatUtils;
+import cc.ikew.deliveryman.reward.Reward;
+import cc.ikew.deliveryman.reward.RewardManager;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RewardMenu {
@@ -35,11 +31,15 @@ public class RewardMenu {
 
         rewardSlot.forEach((rewardName, slot) -> {
             Reward r = RewardManager.getInstance().getReward(rewardName);
-            if (r == null) System.out.println("REWARD IS NULL!");
-            ItemStack is = r.getItemByPlayer(player);
-            System.out.println(is.getType().name());
-            is.setAmount(1);
-            inv.setItem(slot, is);
+            if (r == null) {
+                System.out.println("REWARD IS NULL!");
+            }else{
+                ItemStack is = r.getItemByPlayer(player);
+                ////System.out.println(is.getType().name());
+
+                inv.setItem(slot, is);
+            }
+
         });
 
         viewers.put(player.getPlayer(), inv);
@@ -83,20 +83,23 @@ public class RewardMenu {
 
     public void onClick(InventoryClickEvent e){
         if (e.getWhoClicked() instanceof Player){
+            //System.out.println(1);
             Player p = (Player) e.getWhoClicked();
             if (!viewers.containsKey(p)) return;
+            //System.out.println(2);
             e.setCancelled(true);
-            Inventory inv = viewers.get(p);
             ItemStack clicked = e.getCurrentItem();
             if (clicked == null) return;
-            PersistentDataContainer container = clicked.getItemMeta().getPersistentDataContainer();
-            if (container == null) return;
-            if (container.has(RewardManager.getInstance().rewardKey, PersistentDataType.STRING)){
-                String rewardType = container.get(RewardManager.getInstance().rewardKey, PersistentDataType.STRING);
+            //System.out.println(3);
+            NBTItem nbti = new NBTItem(clicked);
+            if (nbti.hasKey(RewardManager.getInstance().rewardKey)){
+                String rewardType = nbti.getString(RewardManager.getInstance().rewardKey);
                 Reward reward = RewardManager.getInstance().getReward(rewardType);
                 DeliveryPlayer dp = DeliveryPlayer.getDeliveryPlayer(p);
                 dp.claimReward(reward);
+                return;
             }
+            //System.out.println(4);
         }
     }
 

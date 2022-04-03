@@ -1,13 +1,13 @@
 menus:
-  main:
+  default:
     rows: 4
-    title: 'Normaal menu'
+    title: 'Normal menu'
     name: 'default' #/deliveryman default to open his menu
     fill-item:
       name: ' '
       lore:
-        - ' '
+        - ''
       glint: true
       material: 'LIGHT_GRAY_STAINED_GLASS_PANE'
     rewards:
-      nitro: 11 #reward naam: slot
+      nitro: 11 #reward name: slot, the nitro reward is defined in the rewards.yml

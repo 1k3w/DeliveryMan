@@ -1,12 +1,17 @@
 name: Deliveryman
 version: ${project.version}
-main: nl.hyperminecraft.deliveryman.Deliveryman
+main: cc.ikew.deliveryman.Deliveryman
 api-version: 1.17
-depend:
+softdepend:
   - PlaceholderAPI
+  - Vault
 commands:
   deliveryman:
     aliases:
       - dm
     description: 'opens the deliveryman gui'
     usage: '/deliveryman <menu>'
+permissions:
+  deliveryman.reload:
+    default: false
+    description: Lets you reload the config files!

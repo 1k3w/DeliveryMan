@@ -26,8 +26,7 @@ public class DataHandler {
             @Override
             public void run() {
                 try {
-                    PreparedStatement ps =  MySql.conn.prepareStatement("SELECT * FROM player_data WHERE uuid=?", ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY);
+                    PreparedStatement ps =  MySql.conn.prepareStatement("SELECT * FROM player_data WHERE uuid=?;");
                     ps.setString(1, uuid.toString());
                     ResultSet rs = ps.executeQuery();
                     HashMap<String, Long> data = new HashMap<>();
@@ -67,7 +66,6 @@ public class DataHandler {
                     }
                     query = query.replace("%u", uuid.toString()).replace("%r", reward).replace("%c", claimedAt + "");
                     MySql.conn.createStatement().execute(query);
-                    MySql.conn.commit();
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
                 }

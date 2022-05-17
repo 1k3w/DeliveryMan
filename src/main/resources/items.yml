@@ -17,6 +17,7 @@ rewards:
         - '&d{claim_next_remain}'
         - ''
       custom-model-data: -1 # -1 to disable this.
+      click-sound: 'BLOCK_ANVIL_LAND'
     available:
       material: CHEST_MINECART # bit.ly/spigotmaterials
       amount: 1
@@ -27,6 +28,7 @@ rewards:
         - '&d- 2x Nitro crate key'
         - ''
       custom-model-data: -1
+      click-sound: 'ENTITY_PLAYER_LEVELUP'
     need-condition: # Item to display if the reward need a permission and the user doesn't have it.
       material: CHEST_MINECART # bit.ly/spigotmaterials
       amount: 1
@@ -37,3 +39,17 @@ rewards:
         - "&7&If this is false, contact staff!"
         - ''
       custom-model-data: -1
+      click-sound: 'BLOCK_ANVIL_LAND'
+cosmetics:
+  Chest:
+    material: CHEST
+    amount: 1
+    name: ' '
+    glint: true
+    lore:
+      - ''
+    custom-model-data: -1
+    commands:
+      - 'msg Hi from Cosmetic!'
+
+

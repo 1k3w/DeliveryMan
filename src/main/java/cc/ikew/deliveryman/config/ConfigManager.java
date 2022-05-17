@@ -8,13 +8,13 @@ import java.io.File;
 
 public class ConfigManager {
 
-    public static FileConfiguration messages, rewards, menus, config;
+    public static FileConfiguration messages, items, menus, config;
 
     static {
         Deliveryman dm = Deliveryman.instance;
         config = dm.getConfig();
         messages = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "messages.yml"));
-        rewards = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "rewards.yml"));
+        items = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "items.yml"));
         menus = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "menus.yml"));
     }
 
@@ -22,7 +22,7 @@ public class ConfigManager {
         Deliveryman dm = Deliveryman.instance;
         config = dm.getConfig();
         messages = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "messages.yml"));
-        rewards = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "rewards.yml"));
+        items = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "items.yml"));
         menus = YamlConfiguration.loadConfiguration(new File(dm.getDataFolder(), "menus.yml"));
     }
 }

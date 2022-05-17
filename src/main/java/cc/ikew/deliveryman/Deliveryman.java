@@ -34,7 +34,7 @@ public final class Deliveryman extends JavaPlugin {
         getServer().getPluginManager().registerEvents(RewardMenuHandler.getInstance(), this);
         getServer().getPluginManager().registerEvents(new RegisterListener(), this);
         RewardMenuHandler.getInstance().load(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "menus.yml")));
-        RewardManager.getInstance().load(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "rewards.yml")));
+        RewardManager.getInstance().load(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items.yml")));
         getServer().getPluginCommand("deliveryman").setExecutor(new DeliveryCommand());
         DataHandler.createDataTable();
         enableHooks();
@@ -48,7 +48,7 @@ public final class Deliveryman extends JavaPlugin {
     }
 
     private void loadFiles() {
-        saveResource("rewards.yml", false);
+        saveResource("items.yml", false);
         saveResource("messages.yml", false);
         saveResource("menus.yml", false);
     }

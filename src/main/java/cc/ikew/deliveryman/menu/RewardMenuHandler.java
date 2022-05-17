@@ -20,6 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class RewardMenuHandler implements Listener {
     private static RewardMenuHandler instance;
@@ -75,12 +76,17 @@ public class RewardMenuHandler implements Listener {
             }
             meta.setLore(ChatUtils.translateAll(config.getStringList("menus." + s + ".fill-item.lore").toArray(new String[0])));
             fillItem.setItemMeta(meta);
-            HashMap<String, Integer> rewardSlots = new HashMap<>();
+            HashMap<String, List<Integer>> rewardSlots = new HashMap<>();
+            HashMap<String, List<Integer>> cosmeticSlots = new HashMap<>();
             for (String rewardName : config.getConfigurationSection("menus." + s + ".rewards").getKeys(false)){
-                rewardSlots.put(rewardName, config.getInt("menus." + s + ".rewards." + rewardName));
+                rewardSlots.put(rewardName, config.getIntegerList("menus." + s + ".rewards." + rewardName));
             }
 
-            RewardMenu menu = new RewardMenu(fillItem, rewardSlots,config.getString("menus." + s + ".title"), config.getString("menus." + s + ".name"), config.getInt("menus." + s + ".rows"));
+            for (String cosmeticName : config.getConfigurationSection("menus." + s + ".cosmetics").getKeys(false)){
+                cosmeticSlots.put(cosmeticName, config.getIntegerList("menus." + s + ".cosmetics." + cosmeticName));
+            }
+
+            RewardMenu menu = new RewardMenu(fillItem, rewardSlots,config.getString("menus." + s + ".title"), config.getString("menus." + s + ".name"), config.getInt("menus." + s + ".rows"), cosmeticSlots);
             menus.add(menu);
         }
     }

@@ -2,5 +2,7 @@ mysql:
   dsn: 'jdbc:mysql://localhost/test'
   username: 'root'
   password: ''
+  sqlite: true #Enabling this will remove the cross-server ability, but it removes the requirement for an external database
+                #Taking periodical backups (data.db) is HIGHLY recommendedal
 placeholderAPI:
   no-rewards-text: 'No Rewards'

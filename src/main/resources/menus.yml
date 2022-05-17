@@ -10,4 +10,16 @@ menus:
       glint: true
       material: 'LIGHT_GRAY_STAINED_GLASS_PANE'
     rewards:
-      nitro: 11 #reward name: slot, the nitro reward is defined in the rewards.yml
+      nitro:
+        - 11 #reward name: slot, the nitro reward is defined in the items.yml
+    cosmetics:
+      Chest:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 0

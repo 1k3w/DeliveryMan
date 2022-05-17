@@ -39,34 +39,42 @@ public class DeliveryPlayer {
     public void claimReward(Reward reward){
         ClaimableState state = getClaimableState(reward);
         if (state == ClaimableState.AVAILABLE){
+            //System.out.println("claimable");
             for (String s : reward.commands){
-                if (s.startsWith("[c] ") || s.startsWith("[c]")) Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s.replace("[c]", ""));
+                if (s.startsWith("[c] ") || s.startsWith("[c]")) Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s.replace("[c]", "")
+                .replace("{player}", player.getName()).replace("{name}", player.getName()));
                 if (s.startsWith("[m] ") || s.startsWith("[m]")) player.sendMessage(ChatUtils.translate( s.replace("[m]", ""), player));
             }
             DataHandler.setRedeemed(player.getUniqueId(), reward.id, System.currentTimeMillis(), this);
             lastClaimed.put(reward.id, System.currentTimeMillis());
+            if(reward.claimSound != null) player.playSound(player.getLocation(), reward.claimSound, 1f, 1f);
+
         }else if(state == ClaimableState.ALREADY_CLAIMED){
+            //System.out.println("already claimed");
             String message = ConfigManager.messages.getString("already-claimed");
             player.sendMessage(ChatUtils.translate(message.replace("{claim_next_remain}", (reward.cooldown <= -1) ?
                     ConfigManager.messages.getString("never-claimable-text") : getReadableTimeRemaining(reward)), player));
+            if(reward.unavailableSound != null) player.playSound(player.getLocation(), reward.unavailableSound, 1f, 1f);
         }else{
+            //System.out.println("not claimable");
             player.sendMessage(ChatUtils.translate(ConfigManager.messages.getString("not-allowed-to-claim"), player));
+            if (reward.needConditionSound != null) player.playSound(player.getLocation(), reward.needConditionSound, 1f, 1f);
         }
     }
 
     public ClaimableState getClaimableState(Reward reward){
         boolean hasPerms = true;
-        for (String req : reward.requiredPermissions) {
+        for (String req : reward.conditions) {
             if (req.startsWith("[perm]")){
-                req = req.replace("[perm]", "").replace("[perm] ", "");
-                if (!player.hasPermission(req)) {
+                req = req.replace("[perm] ", "").replace("[perm]", "");
+                if (!player.hasPermission(req) && !player.isOp()) {
                     hasPerms = false;
                     break;
                 }
                 continue;
             }
             if (req.startsWith("[money]")){
-                req = req.replace("[money]", "").replace("[money] ", "");
+                req = req.replace("[money] ", "").replace("[money]", "");
                 try{
                     double moneyRequired = Double.parseDouble(req);
                     if (!VaultHook.hasMoney(moneyRequired, player)){
@@ -74,7 +82,7 @@ public class DeliveryPlayer {
                         break;
                     }
                 }catch(NumberFormatException fex){
-                    Deliveryman.instance.getLogger().log(Level.SEVERE, "Check your rewards.yml, Because we couldnt parse the money value!");
+                    Deliveryman.instance.getLogger().log(Level.SEVERE, "Check your items.yml, fix it, and then use /dm reload");
                     hasPerms = false;
                 }
             }
@@ -88,7 +96,7 @@ public class DeliveryPlayer {
     }
 
     public String getReadableTimeRemaining(Reward reward){
-        if (reward.cooldown <= -1) return "Never";
+        if (reward.cooldown <= -1) return ConfigManager.messages.getString("never-claimable-text");
         long remainingTime = (lastClaimed.get(reward.id) + reward.cooldown - System.currentTimeMillis() ) / 1000;
         int day = (int) TimeUnit.SECONDS.toDays(remainingTime);
         long hour = TimeUnit.SECONDS.toHours(remainingTime) - (day *24);

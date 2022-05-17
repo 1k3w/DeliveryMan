@@ -1,0 +1,25 @@
+menus:
+  default:
+    rows: 4
+    title: 'Normal menu'
+    name: 'default' #/deliveryman default to open his menu
+    fill-item:
+      name: ' '
+      lore:
+        - ''
+      glint: true
+      material: 'LIGHT_GRAY_STAINED_GLASS_PANE'
+    rewards:
+      nitro:
+        - 11 #reward name: slot, the nitro reward is defined in the items.yml
+    cosmetics:
+      Chest:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 0

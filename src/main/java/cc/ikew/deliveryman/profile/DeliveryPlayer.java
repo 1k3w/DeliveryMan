@@ -2,6 +2,7 @@ package cc.ikew.deliveryman.profile;
 
 import cc.ikew.deliveryman.Deliveryman;
 import cc.ikew.deliveryman.MySql.DataHandler;
+import cc.ikew.deliveryman.MySql.MySql;
 import cc.ikew.deliveryman.config.ConfigManager;
 import cc.ikew.deliveryman.hooks.vault.VaultHook;
 import cc.ikew.deliveryman.reward.Reward;
@@ -9,6 +10,7 @@ import cc.ikew.deliveryman.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -37,6 +39,11 @@ public class DeliveryPlayer {
     }
 
     public void claimReward(Reward reward){
+        try{
+            if (MySql.conn.isClosed()) return;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         ClaimableState state = getClaimableState(reward);
         if (state == ClaimableState.AVAILABLE){
             //System.out.println("claimable");

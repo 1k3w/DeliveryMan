@@ -14,9 +14,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public final class Deliveryman extends JavaPlugin {
 
@@ -39,6 +41,20 @@ public final class Deliveryman extends JavaPlugin {
         DataHandler.createDataTable();
         enableHooks();
         Metrics metrics = new Metrics(this, 14818);
+
+        new BukkitRunnable(){
+
+            @Override
+            public void run() {
+                try {
+                    if (MySql.conn.isClosed()){
+                        MySql.connect();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }.runTaskTimer(Deliveryman.instance, 20 * 60, 20 * 60);
     }
 
     @Override

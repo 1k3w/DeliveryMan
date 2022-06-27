@@ -60,7 +60,7 @@ public class DataHandler {
                 try {
                     String query = null;
                     if (claimed){
-                        query = "UPDATE player_data SET `claimed_at` = %c WHERE `uuid` = '%u';";
+                        query = "UPDATE player_data SET `claimed_at` = %c WHERE `uuid` = '%u' AND `reward` = '%r';";
                     }else{
                         query = "INSERT INTO player_data(`uuid`, `claimed_at`, `reward`) VALUES ('%u', %c, '%r');";
                     }

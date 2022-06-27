@@ -34,7 +34,7 @@ public class DeliveryCommand implements CommandExecutor {
             RewardMenuHandler.getInstance().load(ConfigManager.menus);
             RewardManager.getInstance().load(ConfigManager.items);
             CosmeticsHandler.getInstance().load();
-        }else{
+        }else{p
             if (!p.hasPermission("deliveryman.menu" + args[0].toLowerCase())){
                 p.sendMessage(ChatUtils.translate(ConfigManager.messages.getString("not-allowed").replace("{permission}", "deliveryman.menu." + args[0].toLowerCase()), p));
                 return true;

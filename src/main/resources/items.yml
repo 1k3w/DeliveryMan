@@ -5,7 +5,8 @@ rewards:
       - '[c] goldencrates givekey {name} nitro 1'
       - '[m] &aYou Received &71x &d&lNitro &7key &areceived!!'
     conditions:
-      - 'deliveryman.rewards.nitro'
+      - '[perm] deliveryman.rewards.nitro'
+      - '[money] 5000'
     locked:
       material: MINECART
       amount: 1

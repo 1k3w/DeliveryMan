@@ -67,26 +67,7 @@ public class RewardMenuHandler implements Listener {
     public void load(FileConfiguration config){
         menus = new ArrayList<>();
         for (String s : config.getConfigurationSection("menus").getKeys(false)){
-            ItemStack fillItem = new ItemStack(Material.valueOf(config.getString("menus." + s + ".fill-item.material")));
-            ItemMeta meta = fillItem.getItemMeta();
-            meta.setDisplayName(ChatUtils.translate(config.getString("menus." + s + ".fill-item.name")));
-            if (config.getBoolean("menus." + s + ".fill-item.glint")){
-                meta.addEnchant(Enchantment.DURABILITY, 1, false);
-                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
-            }
-            meta.setLore(ChatUtils.translateAll(config.getStringList("menus." + s + ".fill-item.lore").toArray(new String[0])));
-            fillItem.setItemMeta(meta);
-            HashMap<String, List<Integer>> rewardSlots = new HashMap<>();
-            HashMap<String, List<Integer>> cosmeticSlots = new HashMap<>();
-            for (String rewardName : config.getConfigurationSection("menus." + s + ".rewards").getKeys(false)){
-                rewardSlots.put(rewardName, config.getIntegerList("menus." + s + ".rewards." + rewardName));
-            }
-
-            for (String cosmeticName : config.getConfigurationSection("menus." + s + ".cosmetics").getKeys(false)){
-                cosmeticSlots.put(cosmeticName, config.getIntegerList("menus." + s + ".cosmetics." + cosmeticName));
-            }
-
-            RewardMenu menu = new RewardMenu(fillItem, rewardSlots,config.getString("menus." + s + ".title"), config.getString("menus." + s + ".name"), config.getInt("menus." + s + ".rows"), cosmeticSlots);
+            RewardMenu menu = new RewardMenu("menus." + s,config);
             menus.add(menu);
         }
     }

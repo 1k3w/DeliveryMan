@@ -1,5 +1,7 @@
 package cc.ikew.deliveryman.menu;
 
+import cc.ikew.deliveryman.config.ConfigManager;
+import cc.ikew.deliveryman.configgable.Configgable;
 import cc.ikew.deliveryman.menu.cosmetic.Cosmetic;
 import cc.ikew.deliveryman.menu.cosmetic.CosmeticsHandler;
 import cc.ikew.deliveryman.profile.DeliveryPlayer;
@@ -8,38 +10,53 @@ import cc.ikew.deliveryman.reward.Reward;
 import cc.ikew.deliveryman.reward.RewardManager;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class RewardMenu {
 
-    private ItemStack fillIs;
-    private HashMap<String, List<Integer>> rewardSlot;
-    private HashMap<String, List<Integer>> cosmeticsSlot;
-    private String title;
-    private String name;
-    private int rows;
+
+    private final String basePath;
+    private final FileConfiguration config;
+
+    private Configgable<String> fillIsMaterial;
+    private Configgable<String> fillIsName;
+    private Configgable<Boolean> fillIsGlint;
+    private Configgable<List<String>> fillIsLore;
+
+
+    private List<Configgable<List<Integer>>> rewardSlot;
+    private List<Configgable<List<Integer>>> cosmeticsSlot;
+    private Configgable<String> title;
+    private Configgable<Integer> rows;
 
     public HashMap<Player, Inventory> viewers = new HashMap<>();
 
     public void open(DeliveryPlayer player){
-        Inventory inv = Bukkit.createInventory(null, rows * 9, ChatUtils.translate(title, player.getPlayer()));
-        for (int i = 0; i < inv.getSize(); i++) inv.setItem(i, fillIs);
+        Inventory inv = Bukkit.createInventory(null, rows.get() * 9, ChatUtils.translate(title.getOrDefault(""), player.getPlayer()));
+        for (int i = 0; i < inv.getSize(); i++) inv.setItem(i, getFillIS(player.getPlayer()));
 
-        cosmeticsSlot.forEach((cosmeticName, slot) -> {
-            Cosmetic cm = CosmeticsHandler.getInstance().getByID(cosmeticName);
+        cosmeticsSlot.forEach((cosmeticName) -> {
+            Cosmetic cm = CosmeticsHandler.getInstance().getByID(cosmeticName.getKey());
             if (cm == null) {
                 System.out.println("REWARD IS NULL!");
             }else{
                 ItemStack is = cm.getByPlayer(player.getPlayer());
-                for (int i : slot){
+                for (int i : cosmeticName.get()){
                     inv.setItem(i, is);
                 }
 
@@ -47,16 +64,15 @@ public class RewardMenu {
 
         });
 
-        rewardSlot.forEach((rewardName, slot) -> {
-            Reward r = RewardManager.getInstance().getReward(rewardName);
+        rewardSlot.forEach((rewardName) -> {
+            Reward r = RewardManager.getInstance().getReward(rewardName.getKey());
             if (r == null) {
                 System.out.println("REWARD IS NULL!");
             }else{
                 ItemStack is = r.getItemByPlayer(player);
-                for (int i : slot){
+                for (int i : rewardName.get()){
                     inv.setItem(i, is);
                 }
-
             }
 
         });
@@ -65,38 +81,55 @@ public class RewardMenu {
         player.getPlayer().openInventory(inv);
     }
 
-    public RewardMenu(ItemStack fillIs, HashMap<String, List<Integer>> rewardSlot, String title, String name, int rows, HashMap<String, List<Integer>> cosmetics) {
-        this.fillIs = fillIs;
-        this.rewardSlot = rewardSlot;
-        this.title = title;
-        this.name = name;
-        this.rows = rows;
-        this.cosmeticsSlot = cosmetics;
+    //fillItem, rewardSlots,config.getString("menus." + s + ".title"), config.getString("menus." + s + ".name"), config.getInt("menus." + s + ".rows"), cosmeticSlots
+    public RewardMenu(String basePath, FileConfiguration config) {
+        this.basePath = basePath;
+        this.config = config;
+        this.rewardSlot = new ArrayList<>();
+
+        for (String rewardName : config.getConfigurationSection(basePath + ".rewards").getKeys(false)){
+            rewardSlot.add(new Configgable<>(basePath + ".rewards." + rewardName, config, ConfigManager.menuFile));
+        }
+
+        this.title = new Configgable<>(basePath + ".title", config, ConfigManager.menuFile);
+        this.rows = new Configgable<>(basePath + ".rows", config, ConfigManager.menuFile);
+        this.cosmeticsSlot = new ArrayList<>();
+
+        for (String cosmeticName : config.getConfigurationSection(basePath + ".cosmetics").getKeys(false)){
+            cosmeticsSlot.add(new Configgable<>(basePath + ".cosmetics." + cosmeticName, config, ConfigManager.menuFile));
+        }
+
+        fillIsMaterial = new Configgable<>(basePath + ".fill-item.material", config, ConfigManager.menuFile);
+        fillIsGlint = new Configgable<>(basePath + ".fill-item.glint", config, ConfigManager.menuFile);
+        fillIsLore = new Configgable<>(basePath + ".fill-item.lore", config, ConfigManager.menuFile);
+        fillIsName = new Configgable<>(basePath + ".fill-item.name", config, ConfigManager.menuFile);
+
+
     }
 
     public void onTick(){
         viewers.forEach((player, inv) ->{
-            cosmeticsSlot.forEach((cosmeticName, slot) -> {
-                Cosmetic cm = CosmeticsHandler.getInstance().getByID(cosmeticName);
+            cosmeticsSlot.forEach((cosmetic) -> {
+                Cosmetic cm = CosmeticsHandler.getInstance().getByID(cosmetic.getKey());
                 if (cm == null) {
                     System.out.println("REWARD IS NULL!");
                 }else{
                     ItemStack is = cm.getByPlayer(player.getPlayer());
-                    for (int i : slot){
+                    for (int i : cosmetic.get()){
                         inv.setItem(i, is);
                     }
 
                 }
 
             });
-            rewardSlot.forEach((name, slot) -> {
-                Reward rw = RewardManager.getInstance().getReward(name);
+            rewardSlot.forEach((reward) -> {
+                Reward rw = RewardManager.getInstance().getReward(reward.getKey());
                 if (rw == null) {
                     System.out.println("REWARD IS NULL!");
                 }else{
                     ItemStack is = rw.getItemByPlayer(DeliveryPlayer.getDeliveryPlayer(player));
                     NBTItem nbti = new NBTItem(is);
-                    for (int i : slot){
+                    for (int i : reward.get()){
                         inv.setItem(i, is);
                     }
 
@@ -105,18 +138,9 @@ public class RewardMenu {
         });
     }
 
-    public ItemStack getFillIs() {
-        return fillIs;
-    }
-
-    public HashMap<String, List<Integer>> getRewardSlot() {
+    public List<Configgable<List<Integer>>> getRewardSlot() {
         return rewardSlot;
     }
-
-    public void setFillIs(ItemStack fillIs) {
-        this.fillIs = fillIs;
-    }
-
     public void onClose(InventoryCloseEvent e){
         Player toremove = null;
         for (Inventory inv : viewers.values()) if (e.getInventory() == inv) toremove = (Player) e.getPlayer();
@@ -156,15 +180,25 @@ public class RewardMenu {
         viewers.remove(e.getPlayer());
     }
 
-    public String getTitle() {
-        return title;
+
+    public int getRows() {
+        return rows.get();
+    }
+
+    public ItemStack getFillIS(Player p){
+        ItemStack fillItem = new ItemStack(Material.valueOf(fillIsMaterial.getOrDefault("stone").toUpperCase()));
+        ItemMeta meta = fillItem.getItemMeta();
+        meta.setDisplayName(ChatUtils.translate(fillIsName.getOrDefault("")));
+        if (fillIsGlint.getOrDefault(false)){
+            meta.addEnchant(Enchantment.DURABILITY, 1, false);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
+        }
+        meta.setLore(ChatUtils.translateAll(p,fillIsLore.getOrDefault(new ArrayList<>())));
+        fillItem.setItemMeta(meta);
+        return fillItem;
     }
 
     public String getName() {
-        return name;
-    }
-
-    public int getRows() {
-        return rows;
+        return basePath.split(".")[basePath.split(".").length -1];
     }
 }

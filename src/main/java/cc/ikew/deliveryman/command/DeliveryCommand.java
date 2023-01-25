@@ -5,6 +5,7 @@ import cc.ikew.deliveryman.menu.RewardMenuHandler;
 import cc.ikew.deliveryman.menu.cosmetic.CosmeticsHandler;
 import cc.ikew.deliveryman.reward.RewardManager;
 import cc.ikew.deliveryman.utils.ChatUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,6 +35,7 @@ public class DeliveryCommand implements CommandExecutor {
             RewardMenuHandler.getInstance().load(ConfigManager.menus);
             RewardManager.getInstance().load(ConfigManager.items);
             CosmeticsHandler.getInstance().load();
+            p.sendMessage(ChatColor.GREEN + "Reloaded all config files!");
         }else{
             if (!p.hasPermission("deliveryman.menu" + args[0].toLowerCase())){
                 p.sendMessage(ChatUtils.translate(ConfigManager.messages.getString("not-allowed").replace("{permission}", "deliveryman.menu." + args[0].toLowerCase()), p));

@@ -20,7 +20,9 @@ public class Configgable <T>{
     }
 
     public T get(){
-        return (T) configToUse.get(path);
+        Object val = configToUse.get(path);
+        if (val == null) return null;
+        return (T) val;
     }
 
     public T getOrDefault(T def){

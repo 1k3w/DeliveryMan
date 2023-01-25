@@ -27,7 +27,7 @@ public class DeliveryCommand implements CommandExecutor {
             }
             RewardMenuHandler.getInstance().openMenu(p, "default");
         }else if (args[0].equalsIgnoreCase("reload")){
-            if(!p.hasPermission("deliveryman.reloaded")){
+            if(!p.hasPermission("deliveryman.reload")){
                 p.sendMessage(ChatUtils.translate(ConfigManager.messages.getString("not-allowed").replace("{permission}", "deliveryman.reload"), p));
                 return true;
             }
@@ -37,7 +37,7 @@ public class DeliveryCommand implements CommandExecutor {
             CosmeticsHandler.getInstance().load();
             p.sendMessage(ChatColor.GREEN + "Reloaded all config files!");
         }else{
-            if (!p.hasPermission("deliveryman.menu" + args[0].toLowerCase())){
+            if (!p.hasPermission("deliveryman.menu." + args[0].toLowerCase())){
                 p.sendMessage(ChatUtils.translate(ConfigManager.messages.getString("not-allowed").replace("{permission}", "deliveryman.menu." + args[0].toLowerCase()), p));
                 return true;
             }

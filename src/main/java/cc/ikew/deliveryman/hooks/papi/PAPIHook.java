@@ -11,7 +11,7 @@ public class PAPIHook extends PlaceholderExpansion {
 
     @Override
     public String getAuthor() {
-        return "IKEW/medline (same person)";
+        return "IKEW (same person)";
     }
 
     @Override
@@ -36,7 +36,8 @@ public class PAPIHook extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
-        if (params.equals("available")) return (PAPIDataHandler.getRewardsRemaining(player) != 0 ? PAPIDataHandler.getRewardsRemaining(player) + "" :
+        if (params.equals("available")) return (PAPIDataHandler.getRewardsRemaining(player) != 0 ?
+                plugin.getConfig().getString("placeholderAPI.rewards-text").replace("{rewards}", PAPIDataHandler.getRewardsRemaining(player) + "") :
                 plugin.getConfig().getString("placeholderAPI.no-rewards-text"));
         return "";
     }

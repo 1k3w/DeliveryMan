@@ -3,6 +3,7 @@ mysql:
   username: 'root'
   password: ''
   sqlite: true #Enabling this will remove the cross-server ability, but it removes the requirement for an external database
-                #Taking periodical backups (data.db) is HIGHLY recommendedal
+                #Taking periodical backups (data.db) is HIGHLY recommended
 placeholderAPI:
-  no-rewards-text: 'No Rewards'
+  no-rewards-text: 'You have no rewards to claim!'
+  rewards-text: 'You have {rewards} rewards to claim!'

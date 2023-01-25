@@ -1,7 +1,7 @@
 package cc.ikew.deliveryman.menu;
 
 import cc.ikew.deliveryman.config.ConfigManager;
-import cc.ikew.deliveryman.configgable.Configgable;
+import cc.ikew.deliveryman.config.Configgable;
 import cc.ikew.deliveryman.menu.cosmetic.Cosmetic;
 import cc.ikew.deliveryman.menu.cosmetic.CosmeticsHandler;
 import cc.ikew.deliveryman.profile.DeliveryPlayer;
@@ -22,7 +22,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

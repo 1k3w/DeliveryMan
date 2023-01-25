@@ -1,7 +1,7 @@
 package cc.ikew.deliveryman.menu.cosmetic;
 
 import cc.ikew.deliveryman.config.ConfigManager;
-import cc.ikew.deliveryman.configgable.Configgable;
+import cc.ikew.deliveryman.config.Configgable;
 import cc.ikew.deliveryman.utils.ChatUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Material;
@@ -13,8 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static cc.ikew.deliveryman.config.ConfigManager.config;
 
 public class Cosmetic {
 

@@ -1,4 +1,4 @@
-package cc.ikew.deliveryman.configgable;
+package cc.ikew.deliveryman.config;
 
 import cc.ikew.deliveryman.Deliveryman;
 import cc.ikew.deliveryman.config.ConfigManager;

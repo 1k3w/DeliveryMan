@@ -1,13 +1,12 @@
 package cc.ikew.deliveryman.reward;
 
 import cc.ikew.deliveryman.config.ConfigManager;
-import cc.ikew.deliveryman.configgable.Configgable;
+import cc.ikew.deliveryman.config.Configgable;
 import cc.ikew.deliveryman.profile.ClaimableState;
 import cc.ikew.deliveryman.profile.DeliveryPlayer;
 import cc.ikew.deliveryman.utils.ChatUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

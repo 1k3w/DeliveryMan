@@ -185,6 +185,7 @@ public class RewardMenu {
     }
 
     public ItemStack getFillIS(Player p){
+        if (fillIsMaterial.get() == null || fillIsMaterial.get() == "AIR") return new ItemStack(Material.AIR);
         ItemStack fillItem = new ItemStack(Material.valueOf(fillIsMaterial.getOrDefault("stone").toUpperCase()));
         ItemMeta meta = fillItem.getItemMeta();
         meta.setDisplayName(ChatUtils.translate(fillIsName.getOrDefault("")));
